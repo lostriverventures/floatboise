@@ -8,6 +8,11 @@
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
+  <!-- Fonts: Fraunces for display, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7JJ1581Y9"></script>
   <script>
@@ -34,10 +39,16 @@
               DEFAULT: '#15803d',
               light: '#ECFDF3',
             },
+            sand: '#EADFC6',
             cream: '#FDFBF7',
           },
           fontFamily: {
-            sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
+          },
+          boxShadow: {
+            card: '0 1px 2px rgba(7,59,80,0.04), 0 8px 24px -12px rgba(7,59,80,0.18)',
+            lift: '0 12px 32px -12px rgba(7,59,80,0.30)',
           },
         },
       },
@@ -46,6 +57,19 @@
 
   <style type="text/tailwindcss">
     html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; }
+    /* Offset anchor jumps so section headings clear the sticky navbar */
+    section[id], main[id] { scroll-margin-top: 5.5rem; }
+    /* Fraunces optical sizing for large display type */
+    .font-display { font-optical-sizing: auto; }
+    /* Reusable card hover lift */
+    .card-lift { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .card-lift:hover { transform: translateY(-4px); }
+    /* Subtle rise-in on scroll */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+      .reveal.in { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 
@@ -63,7 +87,7 @@
           <path d="M8 44c4.5 3 9 3 13.5 0s9-3 13.5 0 9 3 13.5 0 9-3 13.5 0"
                 fill="none" stroke="#0A4D68" stroke-width="3.5" stroke-linecap="round"/>
         </svg>
-        <span class="text-xl font-bold tracking-tight text-river">floatboise</span>
+        <span class="font-display text-2xl font-semibold tracking-tight text-river">floatboise</span>
       </a>
 
       <!-- Desktop nav -->
@@ -116,45 +140,115 @@
   <main id="home">
 
     <!-- ============ HERO ============ -->
-    <section class="relative bg-river">
-      <div class="max-w-6xl mx-auto px-5 sm:px-6 pt-10 sm:pt-12 pb-16 sm:pb-20">
-        <div class="max-w-2xl">
-          <p class="text-sm font-semibold uppercase tracking-widest text-white/60">Boise, Idaho</p>
-          <h1 class="mt-2 text-4xl sm:text-5xl font-bold text-white tracking-tight">
-            Float the Boise River
+    <section class="relative overflow-hidden bg-gradient-to-b from-river-dark via-river to-[#0e6182]">
+      <!-- decorative sun glow -->
+      <div class="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-gradient-to-br from-amber-200/25 to-transparent blur-2xl"></div>
+      <!-- decorative ripple lines -->
+      <svg class="pointer-events-none absolute inset-0 w-full h-full opacity-[0.12]" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round">
+          <path d="M-50 120 C 200 90, 400 150, 650 120 S 1050 90, 1300 120" />
+          <path d="M-50 200 C 200 170, 400 230, 650 200 S 1050 170, 1300 200" />
+          <path d="M-50 300 C 250 270, 450 330, 700 300 S 1100 270, 1300 300" />
+        </g>
+      </svg>
+
+      <div class="relative max-w-6xl mx-auto px-5 sm:px-6 pt-12 sm:pt-16 pb-28 sm:pb-36 grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-7">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <a href="#conditions" id="hero-live"
+               class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 pl-2 pr-3 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm hover:bg-white/15 transition-colors">
+              <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-leaf/70"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-leaf"></span>
+              </span>
+              <span id="hero-live-text">Live river conditions</span>
+              <svg class="w-3.5 h-3.5 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+            </a>
+            <a href="#weather" id="hero-weather"
+               class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 pl-2.5 pr-3 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm hover:bg-white/15 transition-colors">
+              <span id="hero-weather-icon" class="w-4 h-4 text-amber-200" aria-hidden="true">
+                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>
+              </span>
+              <span id="hero-weather-text">Weather forecast</span>
+              <svg class="w-3.5 h-3.5 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+          <h1 class="font-display mt-5 text-5xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.03]">
+            Float the<br class="hidden sm:block" /> Boise River
           </h1>
-          <p class="mt-3 text-lg text-white/85 max-w-xl">
-            Your guide to the classic 6-mile float from Barber Park to Ann Morrison Park &mdash; conditions, logistics, and safety in one place.
+          <p class="mt-5 text-lg sm:text-xl text-white/85 max-w-xl leading-relaxed">
+            The 6-mile float from Barber Park to Ann Morrison, made simple &mdash; live conditions, the weather forecast, parking, and safety, all in one place.
           </p>
-          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
             <a href="#plan"
-               class="inline-flex justify-center items-center bg-leaf hover:bg-green-800 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors">
+               class="inline-flex justify-center items-center gap-2 bg-leaf hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-full shadow-lg shadow-leaf/25 transition-all hover:shadow-xl hover:-translate-y-0.5">
               Plan Your Float
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             </a>
             <a href="#conditions"
-               class="inline-flex justify-center items-center bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-lg border border-white/30 transition-colors">
+               class="inline-flex justify-center items-center bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-full border border-white/30 backdrop-blur-sm transition-colors">
               Check Conditions
             </a>
           </div>
         </div>
+
+        <!-- Brand illustration: floating inner tube on the river (echoes the logo) -->
+        <div class="hidden lg:block lg:col-span-5">
+          <svg class="w-full max-w-sm mx-auto drop-shadow-2xl" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+            <!-- sun -->
+            <circle cx="322" cy="74" r="30" fill="#FDF0C8" opacity="0.85" />
+            <circle cx="322" cy="74" r="44" fill="#FDF0C8" opacity="0.12" />
+            <!-- ripple rings -->
+            <g stroke="#ffffff" stroke-width="2" opacity="0.18">
+              <ellipse cx="196" cy="232" rx="150" ry="60" />
+              <ellipse cx="196" cy="232" rx="110" ry="44" />
+            </g>
+            <!-- shadow under tube -->
+            <ellipse cx="196" cy="250" rx="96" ry="30" fill="#073B50" opacity="0.25" />
+            <!-- inner tube -->
+            <g transform="rotate(-9 196 210)">
+              <circle cx="196" cy="210" r="92" fill="#15803d" />
+              <circle cx="196" cy="210" r="92" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.35" />
+              <circle cx="196" cy="210" r="46" fill="#0A4D68" />
+              <!-- tube valve + segment highlights -->
+              <circle cx="196" cy="118" r="7" fill="#0f5e2c" />
+              <path d="M196 118 A92 92 0 0 1 288 210" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.28" fill="none" />
+            </g>
+            <!-- water current lines -->
+            <g stroke="#ffffff" stroke-linecap="round" fill="none" opacity="0.4">
+              <path d="M70 300 C 120 288, 160 312, 210 300 S 300 288, 340 300" stroke-width="3" />
+              <path d="M96 332 C 140 322, 180 344, 226 332 S 300 322, 332 332" stroke-width="3" opacity="0.6" />
+            </g>
+          </svg>
+        </div>
       </div>
+
+      <!-- wave transition into page -->
+      <svg class="absolute bottom-0 left-0 w-full text-cream" viewBox="0 0 1440 120" fill="currentColor" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,64 C240,112 480,112 720,80 C960,48 1200,16 1440,48 L1440,120 L0,120 Z" opacity="0.35" />
+        <path d="M0,88 C240,120 480,104 720,96 C960,88 1200,104 1440,80 L1440,120 L0,120 Z" />
+      </svg>
     </section>
 
     <!-- ============ LIVE RIVER CONDITIONS ============ -->
-    <section id="conditions" class="max-w-6xl mx-auto px-4 sm:px-6 -mt-10 relative z-20">
-      <div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8">
-        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+    <section id="conditions" class="max-w-6xl mx-auto px-4 sm:px-6 -mt-16 relative z-20">
+      <div class="relative bg-white rounded-3xl shadow-lift border border-slate-100 p-6 sm:p-8 overflow-hidden">
+        <div class="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-leaf to-river"></div>
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 pl-2">
           <div>
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Current Conditions</h2>
-            <div class="mt-2 flex flex-wrap items-center gap-3">
-              <p id="flow-value" class="text-3xl sm:text-4xl font-bold text-river">&mdash; cfs</p>
+            <h2 class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-leaf/60"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-leaf"></span></span>
+              Live River Conditions
+            </h2>
+            <div class="mt-3 flex flex-wrap items-center gap-3">
+              <p id="flow-value" class="font-display text-4xl sm:text-5xl font-semibold text-river leading-none">&mdash; cfs</p>
               <span id="status-badge"
                     class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-500 text-sm font-semibold px-3 py-1 rounded-full cursor-default">
                 <span id="status-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
                 <span id="status-text">Loading&hellip;</span>
               </span>
             </div>
-            <p id="flow-caption" class="mt-1 text-slate-600">Fetching live flow data&hellip;</p>
+            <p id="flow-caption" class="mt-2 text-slate-600">Fetching live flow data&hellip;</p>
             <p class="mt-3 text-sm text-slate-500">
               Typical safe range: 500&ndash;1,500 cfs. Always verify with official sources.
             </p>
@@ -166,7 +260,7 @@
             </a>
           </div>
         </div>
-        <p class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-400">
+        <p class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-400 pl-2">
           Live flow from <a href="https://waterdata.usgs.gov/monitoring-location/13206000/" target="_blank" rel="noopener" class="underline hover:text-slate-600">USGS gauge 13206000</a>, Boise River at Glenwood Bridge.
           <span id="flow-updated"></span>
         </p>
@@ -175,20 +269,23 @@
 
     <!-- ============ WEATHER FORECAST & BEST DAY TO FLOAT ============ -->
     <section id="weather" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-      <h2 class="text-3xl sm:text-4xl font-bold text-river tracking-tight">Weather Forecast</h2>
+      <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-river tracking-tight">Weather Forecast</h2>
       <p class="mt-4 text-lg text-slate-600 max-w-2xl">
         The next few days at a glance, plus our pick for the best day to get on the water.
       </p>
 
       <!-- Best day highlight -->
-      <div class="mt-8 bg-leaf rounded-2xl text-white p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <p class="text-sm font-semibold uppercase tracking-wider text-white/70">Best Day to Float This Week</p>
-          <p id="best-day-name" class="mt-1 text-2xl sm:text-3xl font-bold">Loading&hellip;</p>
-          <p id="best-day-detail" class="mt-1 text-white/85"></p>
+      <div class="relative overflow-hidden mt-8 bg-gradient-to-br from-leaf to-green-800 rounded-3xl text-white p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-lift">
+        <svg class="pointer-events-none absolute -bottom-8 -right-8 w-56 h-56 text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <circle cx="50" cy="50" r="18" /><circle cx="50" cy="50" r="30" /><circle cx="50" cy="50" r="42" />
+        </svg>
+        <div class="relative">
+          <p class="text-xs font-semibold uppercase tracking-widest text-white/70">Best Day to Float This Week</p>
+          <p id="best-day-name" class="font-display mt-1 text-3xl sm:text-4xl font-semibold">Loading&hellip;</p>
+          <p id="best-day-detail" class="mt-1.5 text-white/90"></p>
           <p id="best-day-why" class="mt-2 text-sm text-white/75 max-w-md"></p>
         </div>
-        <div id="best-day-icon" class="w-14 h-14 text-white shrink-0" aria-hidden="true"></div>
+        <div id="best-day-icon" class="relative w-16 h-16 text-white shrink-0" aria-hidden="true"></div>
       </div>
 
       <!-- Day-by-day forecast strip -->
@@ -203,45 +300,216 @@
       </p>
     </section>
 
+    <!-- ============ SCENIC PHOTO BAND ============ -->
+    <section class="relative h-72 sm:h-96 overflow-hidden">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Friendship_Bridge_in_Julia_Davis_Park.JPG/1280px-Friendship_Bridge_in_Julia_Davis_Park.JPG"
+        alt="Footbridge over the tree-lined Boise River on a summer day"
+        class="absolute inset-0 w-full h-full object-cover object-center"
+        loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-river-dark/90 via-river-dark/40 to-river-dark/25"></div>
+      <div class="relative h-full max-w-6xl mx-auto px-5 sm:px-6 flex items-end pb-8 sm:pb-10">
+        <div class="max-w-xl">
+          <p class="font-display text-2xl sm:text-4xl font-semibold text-white leading-tight">
+            Six easy miles through the heart of Boise.
+          </p>
+          <p class="mt-2 text-white/75 text-sm sm:text-base">
+            The float winds under footbridges and along the shady Greenbelt from Barber Park to Ann Morrison.
+          </p>
+        </div>
+      </div>
+      <a href="https://commons.wikimedia.org/wiki/File:Friendship_Bridge_in_Julia_Davis_Park.JPG" target="_blank" rel="noopener"
+         class="absolute bottom-2 right-3 text-[11px] text-white/45 hover:text-white/75 transition-colors">
+        Photo: Wikimedia Commons
+      </a>
+    </section>
+
     <!-- ============ PLAN YOUR FLOAT ============ -->
     <section id="plan" class="bg-river-light/60 border-y border-slate-200">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-        <h2 class="text-3xl sm:text-4xl font-bold text-river tracking-tight">Plan Your Float</h2>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-river tracking-tight">Plan Your Float</h2>
         <p class="mt-4 text-lg text-slate-600 max-w-2xl">
-          Everything in one place — the route, parking, getting back to your car, and the details that trip people up.
+          Everything in one place — the route, parking, getting back to your car, and the details that are easy to miss.
         </p>
 
-        <!-- The route -->
-        <div class="mt-10 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
-          <h3 class="text-lg font-bold text-slate-800">The Route: Barber Park &rarr; Ann Morrison Park</h3>
-          <p class="mt-2 text-slate-600">
-            Put in at Barber Park and float about 6 miles through town to the take-out at Ann Morrison Park &mdash; 2 to 3 hours
-            on the water.
+        <!-- Float route map (illustration) -->
+        <div class="mt-10 bg-white rounded-2xl border border-slate-100 shadow-card p-6 sm:p-8">
+          <h3 class="font-display text-2xl font-semibold text-river">The Float, Start to Finish</h3>
+          <p class="mt-1 text-sm text-slate-500">The landmarks you'll pass on the ~6-mile run, in order.</p>
+
+          <div class="mt-6 -mx-2 sm:mx-0 overflow-x-auto">
+            <svg class="min-w-[760px] w-full h-auto" viewBox="0 100 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 font-family="Inter, ui-sans-serif, sans-serif"
+                 role="img" aria-label="Illustrated map of the Boise River float, downstream left to right: Barber Park put-in, Warm Springs Golf Course, three Class II rapids, six downtown bridges, Boise State University, the Julia Davis Park rest stop, and the Ann Morrison Park take-out, about 6 miles total.">
+
+              <!-- greenbelt trees along the bank (placed in gaps between labels) -->
+              <g>
+                <g transform="translate(240,285)"><circle cx="-9" cy="2" r="8" fill="#1a7a43"/><circle cx="5" cy="-3" r="10" fill="#15803d"/><circle cx="2" cy="6" r="7" fill="#0f5e2c"/></g>
+                <g transform="translate(490,285)"><circle cx="-9" cy="2" r="8" fill="#1a7a43"/><circle cx="5" cy="-3" r="10" fill="#15803d"/><circle cx="2" cy="6" r="7" fill="#0f5e2c"/></g>
+                <g transform="translate(800,285)"><circle cx="-9" cy="2" r="8" fill="#1a7a43"/><circle cx="5" cy="-3" r="10" fill="#15803d"/><circle cx="2" cy="6" r="7" fill="#0f5e2c"/></g>
+              </g>
+
+              <!-- downstream indicator -->
+              <g transform="translate(430,118)" fill="#94a3b8">
+                <text x="0" y="0" font-size="11" font-weight="600" letter-spacing="2">DOWNSTREAM</text>
+                <path d="M92 -4 h34 M120 -9 l7 5 -7 5" stroke="#94a3b8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+
+              <!-- river -->
+              <path d="M20 245 C 170 226, 300 264, 440 245 C 580 226, 720 264, 860 245 C 915 238, 970 250, 998 245"
+                    stroke="#0A4D68" stroke-width="40" stroke-linecap="round"/>
+              <path d="M40 245 C 175 229, 300 261, 440 245 C 580 229, 720 261, 855 245"
+                    stroke="#ffffff" stroke-width="2" opacity="0.22" fill="none"/>
+
+              <!-- six downtown bridges (mi 3–5) -->
+              <g stroke="#B99A5B" stroke-width="5" stroke-linecap="round">
+                <line x1="500" y1="218" x2="500" y2="272"/>
+                <line x1="553" y1="218" x2="553" y2="272"/>
+                <line x1="607" y1="218" x2="607" y2="272"/>
+                <line x1="660" y1="218" x2="660" y2="272"/>
+                <line x1="713" y1="218" x2="713" y2="272"/>
+                <line x1="767" y1="218" x2="767" y2="272"/>
+              </g>
+
+              <!-- Class II rapids ripples (upper section) -->
+              <g stroke="#ffffff" stroke-width="3" opacity="0.85" fill="none" stroke-linecap="round">
+                <path d="M330 245 q6 -7 12 0 q6 7 12 0"/>
+                <path d="M330 254 q6 -7 12 0 q6 7 12 0"/>
+                <path d="M336 236 q6 -7 12 0 q6 7 12 0"/>
+              </g>
+
+              <!-- mile scale -->
+              <g stroke="#cbd5e1" stroke-width="1.5">
+                <line x1="100" y1="360" x2="900" y2="360"/>
+                <line x1="100" y1="356" x2="100" y2="364"/>
+                <line x1="233" y1="357" x2="233" y2="363"/>
+                <line x1="367" y1="357" x2="367" y2="363"/>
+                <line x1="500" y1="356" x2="500" y2="364"/>
+                <line x1="633" y1="357" x2="633" y2="363"/>
+                <line x1="767" y1="357" x2="767" y2="363"/>
+                <line x1="900" y1="356" x2="900" y2="364"/>
+              </g>
+              <g fill="#94a3b8" font-size="11" text-anchor="middle">
+                <text x="100" y="378">0</text>
+                <text x="500" y="378">3</text>
+                <text x="900" y="378">6 mi</text>
+              </g>
+
+              <!-- ===== Above-river labels ===== -->
+              <!-- Warm Springs Golf Course (~mi 1) -->
+              <line x1="233" y1="228" x2="233" y2="205" stroke="#cbd5e1" stroke-width="1.5"/>
+              <g fill="#334155" text-anchor="middle">
+                <text x="233" y="182" font-size="15" font-weight="600">Warm Springs</text>
+                <text x="233" y="198" font-size="15" font-weight="600">Golf Course</text>
+              </g>
+              <!-- 6 bridges (mi 3–5) -->
+              <line x1="590" y1="216" x2="590" y2="200" stroke="#cbd5e1" stroke-width="1.5"/>
+              <g text-anchor="middle">
+                <text x="590" y="180" font-size="15" font-weight="700" fill="#B08829">6 bridges</text>
+                <text x="590" y="196" font-size="12" fill="#94a3b8">downtown</text>
+              </g>
+              <!-- Julia Davis Park rest stop (~mi 4.6) -->
+              <line x1="713" y1="228" x2="713" y2="205" stroke="#cbd5e1" stroke-width="1.5"/>
+              <g text-anchor="middle">
+                <text x="713" y="180" font-size="10" font-weight="700" letter-spacing="1" fill="#0A4D68">REST STOP</text>
+                <text x="713" y="197" font-size="15" font-weight="600" fill="#334155">Julia Davis Park</text>
+              </g>
+
+              <!-- ===== Below-river labels ===== -->
+              <!-- Class II rapids -->
+              <line x1="342" y1="262" x2="342" y2="286" stroke="#cbd5e1" stroke-width="1.5"/>
+              <g text-anchor="middle" fill="#334155">
+                <text x="342" y="304" font-size="15" font-weight="600">Class II rapids</text>
+                <text x="342" y="320" font-size="12" fill="#94a3b8">three small ones</text>
+              </g>
+              <!-- Boise State University (~mi 4) -->
+              <line x1="633" y1="262" x2="633" y2="286" stroke="#cbd5e1" stroke-width="1.5"/>
+              <g text-anchor="middle" fill="#334155">
+                <text x="633" y="304" font-size="15" font-weight="600">Boise State</text>
+                <text x="633" y="320" font-size="15" font-weight="600">University</text>
+              </g>
+
+              <!-- ===== Put-in / Take-out markers ===== -->
+              <!-- Put-in: Barber Park (mi 0) -->
+              <circle cx="100" cy="245" r="17" fill="#FDFBF7"/>
+              <circle cx="100" cy="245" r="13" fill="none" stroke="#15803d" stroke-width="7"/>
+              <circle cx="100" cy="245" r="3.5" fill="#0A4D68"/>
+              <g text-anchor="middle">
+                <text x="100" y="300" font-size="10" font-weight="700" letter-spacing="1.5" fill="#15803d">PUT-IN</text>
+                <text x="100" y="318" font-size="16" font-weight="700" fill="#0f172a">Barber Park</text>
+              </g>
+              <!-- Take-out: Ann Morrison Park (mi 6) -->
+              <circle cx="900" cy="245" r="17" fill="#FDFBF7"/>
+              <circle cx="900" cy="245" r="13" fill="none" stroke="#15803d" stroke-width="7"/>
+              <circle cx="900" cy="245" r="3.5" fill="#0A4D68"/>
+              <g text-anchor="middle">
+                <text x="900" y="300" font-size="10" font-weight="700" letter-spacing="1.5" fill="#15803d">TAKE-OUT</text>
+                <text x="900" y="318" font-size="16" font-weight="700" fill="#0f172a">Ann Morrison Park</text>
+              </g>
+
+              <!-- intermediate waypoint dots (drawn last, on top of river) -->
+              <g>
+                <circle cx="233" cy="245" r="9" fill="#FDFBF7"/><circle cx="233" cy="245" r="5" fill="#0A4D68"/>
+                <circle cx="713" cy="245" r="9" fill="#FDFBF7"/><circle cx="713" cy="245" r="5" fill="#0A4D68"/>
+                <circle cx="633" cy="245" r="9" fill="#FDFBF7"/><circle cx="633" cy="245" r="5" fill="#0A4D68"/>
+              </g>
+            </svg>
+          </div>
+
+          <p class="mt-4 text-xs text-slate-400">
+            Illustration, not to scale — downstream runs left to right (the Boise River flows west through town).
+            For exact locations and rest stops, see the
+            <a href="https://www.floattheboise.org/pages/interactive-map" target="_blank" rel="noopener" class="underline hover:text-slate-600">official interactive map</a>.
           </p>
-          <div class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-            <div class="bg-river-light/60 rounded-lg p-3">
-              <p class="font-semibold text-river">Season</p>
-              <p class="mt-0.5 text-slate-600">Mid-June to Labor Day, conditions permitting</p>
+        </div>
+
+        <!-- The route -->
+        <div class="mt-10 bg-white rounded-2xl border border-slate-100 shadow-card p-6 sm:p-8">
+          <div class="grid lg:grid-cols-5 gap-6 lg:gap-8 items-center">
+            <div class="lg:col-span-3">
+              <h3 class="text-lg font-bold text-slate-800">The Route: Barber Park &rarr; Ann Morrison Park</h3>
+              <p class="mt-2 text-slate-600">
+                Put in at Barber Park and float about 6 miles through town to the take-out at Ann Morrison Park &mdash; 2 to 3 hours
+                on the water.
+              </p>
+              <div class="mt-5 grid grid-cols-2 gap-4 text-sm">
+                <div class="bg-river-light/60 rounded-lg p-3">
+                  <p class="font-semibold text-river">Season</p>
+                  <p class="mt-0.5 text-slate-600">Mid-June to Labor Day, conditions permitting</p>
+                </div>
+                <div class="bg-river-light/60 rounded-lg p-3">
+                  <p class="font-semibold text-river">Park gates</p>
+                  <p class="mt-0.5 text-slate-600">8 a.m. to sunset</p>
+                </div>
+                <div class="bg-river-light/60 rounded-lg p-3">
+                  <p class="font-semibold text-river">Distance</p>
+                  <p class="mt-0.5 text-slate-600">~6 miles</p>
+                </div>
+                <div class="bg-river-light/60 rounded-lg p-3">
+                  <p class="font-semibold text-river">Time on water</p>
+                  <p class="mt-0.5 text-slate-600">2&ndash;3 hours</p>
+                </div>
+              </div>
             </div>
-            <div class="bg-river-light/60 rounded-lg p-3">
-              <p class="font-semibold text-river">Park gates</p>
-              <p class="mt-0.5 text-slate-600">8 a.m. to sunset</p>
-            </div>
-            <div class="bg-river-light/60 rounded-lg p-3">
-              <p class="font-semibold text-river">Distance</p>
-              <p class="mt-0.5 text-slate-600">~6 miles</p>
-            </div>
-            <div class="bg-river-light/60 rounded-lg p-3">
-              <p class="font-semibold text-river">Time on water</p>
-              <p class="mt-0.5 text-slate-600">2&ndash;3 hours</p>
+            <div class="lg:col-span-2">
+              <figure>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/6/60/Tubers_Float_the_Boise_River.JPG"
+                  alt="Tubers and rafters floating the Boise River in summer"
+                  class="w-full h-52 sm:h-60 lg:h-64 object-cover rounded-xl"
+                  loading="lazy" />
+                <figcaption class="mt-1.5 text-[11px] text-slate-400">
+                  Floaters on the Boise River. Photo: ActualRandy / Wikimedia Commons (CC&nbsp;BY-SA&nbsp;3.0).
+                </figcaption>
+              </figure>
             </div>
           </div>
         </div>
 
         <!-- Logistics grid -->
-        <div class="mt-6 grid md:grid-cols-2 gap-5">
+        <div data-reveal class="mt-6 grid md:grid-cols-2 gap-5">
           <!-- Parking -->
-          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-card card-lift hover:shadow-lift hover:border-river-light p-6 sm:p-8">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg bg-river-light text-river flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -259,7 +527,7 @@
           </div>
 
           <!-- Getting back -->
-          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-card card-lift hover:shadow-lift hover:border-river-light p-6 sm:p-8">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg bg-river-light text-river flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -279,7 +547,7 @@
           </div>
 
           <!-- Rentals -->
-          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-card card-lift hover:shadow-lift hover:border-river-light p-6 sm:p-8">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg bg-river-light text-river flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
@@ -300,7 +568,7 @@
           </div>
 
           <!-- Getting there -->
-          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-card card-lift hover:shadow-lift hover:border-river-light p-6 sm:p-8">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg bg-river-light text-river flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -324,14 +592,14 @@
 
     <!-- ============ WHO'S FLOATING ============ -->
     <section id="who" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-      <h2 class="text-3xl sm:text-4xl font-bold text-river tracking-tight">Tips for Your Crew</h2>
+      <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-river tracking-tight">Tips for Your Crew</h2>
       <p class="mt-4 text-lg text-slate-600 max-w-2xl">
         What you need to know depends on who's coming along.
       </p>
 
-      <div class="mt-10 grid md:grid-cols-3 gap-5">
+      <div data-reveal class="mt-10 grid md:grid-cols-3 gap-5">
         <!-- First-timers -->
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-card card-lift hover:shadow-lift hover:border-river-light p-6 sm:p-8">
           <h3 class="text-lg font-bold text-slate-800">First Time?</h3>
           <ul class="mt-4 space-y-2.5 text-sm text-slate-600">
             <li class="flex gap-2"><span class="text-leaf font-bold shrink-0">&bull;</span><span>Rent at Barber Park &mdash; gear, life vests, and the shuttle back are all handled for you.</span></li>
@@ -342,7 +610,7 @@
         </div>
 
         <!-- Families -->
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-card card-lift hover:shadow-lift hover:border-river-light p-6 sm:p-8">
           <h3 class="text-lg font-bold text-slate-800">Floating with Kids?</h3>
           <ul class="mt-4 space-y-2.5 text-sm text-slate-600">
             <li class="flex gap-2"><span class="text-leaf font-bold shrink-0">&bull;</span><span>Idaho law requires kids 14 and under to wear a life jacket on rafts, kayaks, and canoes.</span></li>
@@ -353,7 +621,7 @@
         </div>
 
         <!-- Returning floaters -->
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-card card-lift hover:shadow-lift hover:border-river-light p-6 sm:p-8">
           <h3 class="text-lg font-bold text-slate-800">Floated Before?</h3>
           <ul class="mt-4 space-y-2.5 text-sm text-slate-600">
             <li class="flex gap-2"><span class="text-leaf font-bold shrink-0">&bull;</span><span>Check the flow above before you head out &mdash; conditions change through the season.</span></li>
@@ -367,12 +635,16 @@
 
     <!-- ============ SAFETY FIRST ============ -->
     <section id="safety" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-      <div class="bg-river rounded-2xl text-white p-8 sm:p-12">
-        <div class="flex items-center gap-3">
-          <svg class="w-8 h-8 text-white/90 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <div class="relative overflow-hidden bg-gradient-to-br from-river-dark via-river to-river-dark rounded-3xl text-white p-8 sm:p-12 shadow-lift">
+        <!-- decorative ripples -->
+        <svg class="pointer-events-none absolute -bottom-6 -right-6 w-72 h-72 text-white/[0.06]" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="50" cy="50" r="20" /><circle cx="50" cy="50" r="32" /><circle cx="50" cy="50" r="44" />
+        </svg>
+        <div class="relative flex items-center gap-3">
+          <svg class="w-9 h-9 text-white/90 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z" />
           </svg>
-          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Safety First</h2>
+          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight">Safety First</h2>
         </div>
         <p class="mt-4 text-white/85 text-lg max-w-2xl">
           The Boise River is generally calm, but conditions can change. A few basics make a real difference.
@@ -425,13 +697,13 @@
     <!-- ============ GEAR & RENTALS ============ -->
     <section id="gear" class="bg-white border-y border-slate-200">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-        <h2 class="text-3xl sm:text-4xl font-bold text-river tracking-tight">Gear &amp; Local Rentals</h2>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-river tracking-tight">Gear &amp; Local Rentals</h2>
         <p class="mt-4 text-lg text-slate-600 max-w-2xl">
           Boise River Raft &amp; Tube rents tubes and rafts on-site at Barber Park during the float season — the easiest option if you don't own gear.
         </p>
 
         <!-- Local partners -->
-        <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div data-reveal class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div class="bg-cream rounded-xl border border-slate-200 p-6 flex flex-col">
             <div class="w-11 h-11 rounded-lg bg-river-light text-river flex items-center justify-center">
               <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
@@ -508,13 +780,13 @@
 
     <!-- ============ FAQ ============ -->
     <section id="faq" class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-      <h2 class="text-3xl sm:text-4xl font-bold text-river tracking-tight">Common Questions</h2>
+      <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-river tracking-tight">Common Questions</h2>
       <p class="mt-4 text-lg text-slate-600">
         Quick answers to the things floaters ask most.
       </p>
 
-      <div class="mt-8 space-y-3">
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+      <div data-reveal class="mt-8 space-y-3">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             When is float season?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -527,7 +799,7 @@
           </p>
         </details>
 
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             How long does the float take?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -538,7 +810,7 @@
           </p>
         </details>
 
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             How much is parking?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -549,7 +821,7 @@
           </p>
         </details>
 
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             How do I get back to my car?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -562,7 +834,7 @@
           </p>
         </details>
 
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             Can I bring my own tube?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -573,7 +845,7 @@
           </p>
         </details>
 
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             Can kids float?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -584,7 +856,7 @@
           </p>
         </details>
 
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             What's not allowed?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -595,7 +867,7 @@
           </p>
         </details>
 
-        <details class="group bg-white rounded-xl border border-slate-200 shadow-sm">
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
           <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
             Is the water cold?
             <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
@@ -731,11 +1003,52 @@
     })();
   </script>
 
+  <!-- Gentle scroll-reveal for section blocks (JS applies the hidden state,
+       so content stays visible if JS or IntersectionObserver is unavailable) -->
+  <script>
+    (function () {
+      var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced || !('IntersectionObserver' in window)) return;
+
+      var targets = document.querySelectorAll('[data-reveal]');
+      if (!targets.length) return;
+
+      targets.forEach(function (el) { el.classList.add('reveal'); });
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+
+      targets.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
   <!-- ============ LIVE DATA: river flow (USGS) + weather forecast (NWS) ============ -->
   <script>
     (function () {
       var USGS_SITE = '13206000'; // Boise River at Glenwood Bridge
       var FORECAST_URL = 'https://api.weather.gov/gridpoints/BOI/135,84/forecast';
+      var HOURLY_URL = 'https://api.weather.gov/gridpoints/BOI/135,84/forecast/hourly';
+
+      // Fetch JSON with one automatic retry, so a transient 503 (these public
+      // APIs occasionally return one) doesn't leave the pills/cards blank.
+      function getJson(url, retries) {
+        retries = (retries === undefined) ? 1 : retries;
+        return fetch(url)
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .catch(function (err) {
+            if (retries > 0) {
+              return new Promise(function (res) { setTimeout(res, 1500); })
+                .then(function () { return getJson(url, retries - 1); });
+            }
+            throw err;
+          });
+      }
 
       function setFlowStatus(cfs) {
         var badge = document.getElementById('status-badge');
@@ -765,12 +1078,14 @@
         dot.className = dotClass;
         text.textContent = label;
         caption.textContent = captionText;
+
+        var heroText = document.getElementById('hero-live-text');
+        if (heroText) heroText.textContent = cfs.toLocaleString() + ' cfs · ' + label;
       }
 
       function fetchFlow() {
         var url = 'https://waterservices.usgs.gov/nwis/iv/?format=json&sites=' + USGS_SITE + '&parameterCd=00060&siteStatus=all';
-        fetch(url)
-          .then(function (r) { if (!r.ok) throw new Error('bad response'); return r.json(); })
+        getJson(url, 1)
           .then(function (data) {
             var reading = data.value.timeSeries[0].values[0].value[0];
             var cfs = Math.round(parseFloat(reading.value));
@@ -788,6 +1103,8 @@
             document.getElementById('status-badge').className =
               'inline-flex items-center gap-1.5 bg-slate-100 text-slate-500 text-sm font-semibold px-3 py-1 rounded-full cursor-default';
             document.getElementById('status-dot').className = 'w-2 h-2 rounded-full bg-slate-400';
+            var heroText = document.getElementById('hero-live-text');
+            if (heroText) heroText.textContent = 'River conditions';
             var caption = document.getElementById('flow-caption');
             caption.textContent = 'Live data unavailable right now — ';
             var link = document.createElement('a');
@@ -884,22 +1201,31 @@
         return 'Chosen for ' + (top.length === 2 ? top[0] + ' and ' + top[1] : top[0]) + '.';
       }
 
-      function makeForecastCard(period) {
+      function makeForecastCard(period, isBest) {
         var precip = (period.probabilityOfPrecipitation && period.probabilityOfPrecipitation.value) || 0;
 
         var card = document.createElement('div');
-        card.className = 'bg-white rounded-xl border border-slate-100 shadow-sm p-4 text-center';
+        card.className = isBest
+          ? 'relative bg-leaf-light rounded-xl border-2 border-leaf shadow-card p-4 pt-5 text-center'
+          : 'relative bg-white rounded-xl border border-slate-100 shadow-card card-lift hover:shadow-lift p-4 text-center';
+
+        if (isBest) {
+          var badge = document.createElement('span');
+          badge.className = 'absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-leaf text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full';
+          badge.textContent = 'Best Day';
+          card.appendChild(badge);
+        }
 
         var name = document.createElement('p');
-        name.className = 'text-sm font-semibold text-slate-500';
+        name.className = isBest ? 'text-sm font-bold text-leaf' : 'text-sm font-semibold text-slate-500';
         name.textContent = period.name;
 
         var iconWrap = document.createElement('div');
-        iconWrap.className = 'mt-2 w-9 h-9 mx-auto text-river';
+        iconWrap.className = isBest ? 'mt-2 w-9 h-9 mx-auto text-leaf' : 'mt-2 w-9 h-9 mx-auto text-river';
         iconWrap.innerHTML = weatherIcon(period.shortForecast);
 
         var temp = document.createElement('p');
-        temp.className = 'mt-1 text-lg font-bold text-slate-800';
+        temp.className = 'font-display mt-1 text-2xl font-semibold text-slate-800';
         temp.textContent = period.temperature + '°';
 
         var short = document.createElement('p');
@@ -907,7 +1233,7 @@
         short.textContent = period.shortForecast;
 
         var rain = document.createElement('p');
-        rain.className = 'mt-1 text-xs text-river font-semibold';
+        rain.className = isBest ? 'mt-1 text-xs text-leaf font-semibold' : 'mt-1 text-xs text-river font-semibold';
         rain.textContent = precip + '% rain';
 
         card.appendChild(name);
@@ -940,20 +1266,19 @@
       }
 
       function fetchForecast() {
-        fetch(FORECAST_URL)
-          .then(function (r) { if (!r.ok) throw new Error('bad response'); return r.json(); })
+        getJson(FORECAST_URL, 1)
           .then(function (data) {
             var periods = data.properties.periods.filter(function (p) { return p.isDaytime; }).slice(0, 5);
             if (!periods.length) throw new Error('no periods');
-
-            var grid = document.getElementById('forecast-grid');
-            grid.innerHTML = '';
-            periods.forEach(function (p) { grid.appendChild(makeForecastCard(p)); });
 
             var best = periods.reduce(function (acc, p) {
               var s = scoreDay(p);
               return (!acc || s > acc.score) ? { period: p, score: s } : acc;
             }, null);
+
+            var grid = document.getElementById('forecast-grid');
+            grid.innerHTML = '';
+            periods.forEach(function (p) { grid.appendChild(makeForecastCard(p, p === best.period)); });
 
             var precip = (best.period.probabilityOfPrecipitation && best.period.probabilityOfPrecipitation.value) || 0;
             document.getElementById('best-day-name').textContent = best.period.name;
@@ -965,8 +1290,23 @@
           .catch(showForecastError);
       }
 
+      // Current temperature + sky for the hero weather pill (hourly = "now").
+      function fetchCurrentWeather() {
+        getJson(HOURLY_URL, 1)
+          .then(function (data) {
+            var now = data.properties.periods[0];
+            if (!now) throw new Error('no data');
+            var textEl = document.getElementById('hero-weather-text');
+            var iconEl = document.getElementById('hero-weather-icon');
+            if (textEl) textEl.textContent = now.temperature + '°' + now.temperatureUnit + ' · ' + now.shortForecast;
+            if (iconEl) iconEl.innerHTML = weatherIcon(now.shortForecast);
+          })
+          .catch(function () { /* leave the default "Weather forecast" label */ });
+      }
+
       fetchFlow();
       fetchForecast();
+      fetchCurrentWeather();
     })();
   </script>
 
