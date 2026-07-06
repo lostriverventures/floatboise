@@ -4,7 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Float Boise — Plan the Classic Boise River Float</title>
-  <meta name="description" content="Practical planning for the classic 6-mile Boise River float from Barber Park to Ann Morrison Park. Conditions, logistics, safety, and gear." />
+  <meta name="description" content="Practical planning for the classic 6-mile Boise River float from Barber Park to Ann Morrison Park. Live river conditions, weather, parking, safety, and gear." />
+  <link rel="canonical" href="https://floatboise.com/" />
+
+  <!-- Social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://floatboise.com/" />
+  <meta property="og:site_name" content="Float Boise" />
+  <meta property="og:title" content="Float Boise — Plan the Classic Boise River Float" />
+  <meta property="og:description" content="Live conditions, weather, parking, and safety for the 6-mile Boise River float from Barber Park to Ann Morrison Park." />
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Friendship_Bridge_in_Julia_Davis_Park.JPG/1280px-Friendship_Bridge_in_Julia_Davis_Park.JPG" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Float Boise — Plan the Classic Boise River Float" />
+  <meta name="twitter:description" content="Live conditions, weather, parking, and safety for the 6-mile Boise River float." />
+  <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Friendship_Bridge_in_Julia_Davis_Park.JPG/1280px-Friendship_Bridge_in_Julia_Davis_Park.JPG" />
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
@@ -53,6 +66,34 @@
         },
       },
     };
+  </script>
+
+  <!-- Structured data: FAQ rich results (mirrors the on-page FAQ) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "When is the Boise River float season?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Typically mid-June through Labor Day, seven days a week, but opening and closing dates depend on weather and water conditions. Always confirm the season is open at floattheboise.org before you go." } },
+      { "@type": "Question", "name": "How long does the Boise River float take?",
+        "acceptedAnswer": { "@type": "Answer", "text": "About 2–3 hours on the water for the roughly 6-mile run from Barber Park to Ann Morrison Park, depending on flow. Budget a full afternoon once you add parking, setup, and the shuttle back." } },
+      { "@type": "Question", "name": "How much is parking at Barber Park?",
+        "acceptedAnswer": { "@type": "Answer", "text": "$7 per day, plus a 50-cent fee for card payments. There is no re-entry to the fee lot without paying again, so use the drop-off area when you return after your float." } },
+      { "@type": "Question", "name": "How much does a float day cost?",
+        "acceptedAnswer": { "@type": "Answer", "text": "If you bring your own tube and arrange your own ride back, the only fixed cost is $7 parking at Barber Park. Renting adds the price of your tube, raft, or kayak (life vests are included with raft rentals), and the shuttle back is a small per-person fee. Check floattheboise.org for current rates." } },
+      { "@type": "Question", "name": "How do I get back to my car after the float?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A paid shuttle bus runs between Ann Morrison Park and Barber Park during the float season. Groups with two cars often leave one near Ann Morrison before driving to the put-in." } },
+      { "@type": "Question", "name": "Can I bring my own tube?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, but arrive with it already inflated — the air stations at Barber Park have been removed. Heavy-duty river tubes hold up much better than pool floats on this rocky section." } },
+      { "@type": "Question", "name": "Can kids float the Boise River?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, with precautions. Idaho law requires children 14 and under to wear an approved life jacket on rafts, kayaks, and canoes, and Ada County advises against bringing infants or small children under 50 lbs on the river. Everyone in your group should know how to swim." } },
+      { "@type": "Question", "name": "What's not allowed on the Boise River float?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Glass containers are prohibited in the parks and on the river. Ada County's guidance: alcohol, drugs, and the river don't mix. Pack out everything you bring." } },
+      { "@type": "Question", "name": "Is the Boise River cold?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes — the river runs cool all summer. That's most of the appeal on a hot day, but get off the water if you start feeling cold, especially with kids along." } }
+    ]
+  }
   </script>
 
   <style type="text/tailwindcss">
@@ -136,6 +177,20 @@
       </div>
     </div>
   </header>
+
+  <!-- Season status banner (shown by JS only when the float season is closed) -->
+  <div id="season-banner" class="hidden bg-amber-50 border-b border-amber-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-start sm:items-center gap-3 text-sm text-amber-900">
+      <svg class="w-5 h-5 shrink-0 mt-0.5 sm:mt-0 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z" />
+      </svg>
+      <p>
+        <span id="season-banner-text" class="font-semibold"></span>
+        The season typically runs mid-June through Labor Day, conditions permitting &mdash;
+        <a href="https://www.floattheboise.org/" target="_blank" rel="noopener" class="underline font-semibold hover:text-amber-700">check the official site</a> before you go.
+      </p>
+    </div>
+  </div>
 
   <main id="home">
 
@@ -251,6 +306,12 @@
             <p id="flow-caption" class="mt-2 text-slate-600">Fetching live flow data&hellip;</p>
             <p class="mt-3 text-sm text-slate-500">
               Typical safe range: 500&ndash;1,500 cfs. Always verify with official sources.
+            </p>
+            <p id="last-launch" class="hidden mt-3 inline-flex items-start gap-2 bg-river-light/70 text-river text-sm font-medium rounded-lg px-3 py-2">
+              <svg class="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
+              </svg>
+              <span id="last-launch-text"></span>
             </p>
           </div>
           <div class="sm:text-right">
@@ -719,10 +780,24 @@
               Rental info
             </a>
           </div>
+
+          <!-- Get listed (partner slot) -->
+          <div class="rounded-xl border-2 border-dashed border-slate-300 p-6 flex flex-col items-start">
+            <div class="w-11 h-11 rounded-lg bg-leaf-light text-leaf flex items-center justify-center">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </div>
+            <h3 class="mt-4 font-bold text-slate-800">Your Business Here</h3>
+            <p class="mt-2 text-sm text-slate-600 flex-1">
+              Run a rental shop, shuttle, or float-friendly business? Get in front of Boise floaters.
+            </p>
+            <a href="mailto:hello@floatboise.com?subject=Get%20listed%20on%20floatboise.com"
+               class="mt-4 inline-flex justify-center w-full border border-leaf text-leaf hover:bg-leaf hover:text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors">
+              Get listed
+            </a>
+          </div>
         </div>
-        <p class="mt-4 text-sm text-slate-400">
-          More local outfitters and shuttle services coming soon.
-        </p>
 
         <!-- Gear essentials (general guidance, not sponsored) -->
         <h3 class="mt-12 text-sm font-semibold uppercase tracking-wider text-slate-400">What to Bring</h3>
@@ -772,8 +847,33 @@
           </div>
         </div>
 
+        <!-- Packing checklist (saved in your browser) -->
+        <div data-reveal class="mt-12 bg-cream rounded-2xl border border-slate-200 p-6 sm:p-8">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 class="font-display text-2xl font-semibold text-river">Float Day Checklist</h3>
+              <p class="mt-1 text-sm text-slate-500">Tick things off as you pack &mdash; it saves automatically on this device.</p>
+            </div>
+            <button id="checklist-reset" type="button"
+                    class="text-sm font-semibold text-slate-500 hover:text-river border border-slate-300 hover:border-river rounded-lg px-3 py-1.5 transition-colors">
+              Reset
+            </button>
+          </div>
+
+          <ul id="packing-checklist" class="mt-5 grid sm:grid-cols-2 gap-x-8 gap-y-1">
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="tube" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">Tube or raft &mdash; inflated before you arrive</span></label></li>
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="pfd" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">PFD for each person (required for kids 14 &amp; under)</span></label></li>
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="shoes" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">Covered shoes that can get wet</span></label></li>
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="sun" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">Sunscreen, hat &amp; sunglasses</span></label></li>
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="drybag" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">Dry bag for phone &amp; keys</span></label></li>
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="water" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">Water &amp; snacks (no glass containers)</span></label></li>
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="ride" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">Plan for getting back &mdash; shuttle or second car</span></label></li>
+            <li><label class="flex items-start gap-3 py-2 cursor-pointer group"><input type="checkbox" data-item="towel" class="mt-0.5 w-5 h-5 rounded accent-[#15803d] cursor-pointer" /><span class="text-slate-700 group-has-[:checked]:line-through group-has-[:checked]:text-slate-400">Towel &amp; dry clothes for the take-out</span></label></li>
+          </ul>
+        </div>
+
         <p class="mt-8 text-sm text-slate-400">
-          Specific gear picks and additional local partners are coming soon.
+          Specific gear picks are coming soon.
         </p>
       </div>
     </section>
@@ -818,6 +918,20 @@
           <p class="px-5 pb-5 text-sm text-slate-600">
             $7 per day at Barber Park (plus a 50&cent; fee for card payments). There's no re-entry to the fee lot without paying again,
             so use the drop-off area when you come back for gear or people after your float.
+          </p>
+        </details>
+
+        <details class="group bg-white rounded-xl border border-slate-200 shadow-card transition-colors hover:border-river-light">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-5 font-semibold text-slate-800">
+            How much does a float day cost?
+            <svg class="w-5 h-5 text-river shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+          </summary>
+          <p class="px-5 pb-5 text-sm text-slate-600">
+            If you bring your own tube and arrange your own ride back, the only fixed cost is $7 parking at Barber Park.
+            Renting adds the price of your tube, raft, or kayak (life vests are included with raft rentals), and the shuttle
+            back from Ann Morrison is a small per-person fee. Rental and shuttle rates change season to season &mdash; check
+            <a href="https://www.floattheboise.org/pages/parking-rental" target="_blank" rel="noopener" class="text-river font-semibold hover:underline">current pricing</a>
+            before you go.
           </p>
         </details>
 
@@ -1025,6 +1139,104 @@
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
 
       targets.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
+  <!-- ============ SEASON BANNER + LAST LAUNCH + PACKING CHECKLIST ============ -->
+  <script>
+    (function () {
+      // ----- Season status banner -----
+      // The float season typically runs mid-June through Labor Day (per Ada County).
+      // Set to 'open' or 'closed' to override the date-based guess when the county
+      // opens late / closes early; 'auto' uses the typical dates.
+      var SEASON_OVERRIDE = 'auto';
+
+      function laborDay(year) {
+        var d = new Date(year, 8, 1); // Sep 1
+        var offset = (8 - d.getDay()) % 7; // days until Monday
+        return new Date(year, 8, 1 + offset);
+      }
+
+      function seasonState(now) {
+        if (SEASON_OVERRIDE === 'open') return 'open';
+        if (SEASON_OVERRIDE === 'closed') return 'before'; // generic closed message
+        var start = new Date(now.getFullYear(), 5, 15); // ~mid-June
+        var end = laborDay(now.getFullYear());
+        end.setHours(23, 59, 59);
+        if (now < start) return 'before';
+        if (now > end) return 'after';
+        return 'open';
+      }
+
+      var now = new Date();
+      var state = seasonState(now);
+      if (state !== 'open') {
+        var banner = document.getElementById('season-banner');
+        var text = document.getElementById('season-banner-text');
+        text.textContent = state === 'after'
+          ? 'The float season has ended for ' + now.getFullYear() + '.'
+          : 'The float season isn’t open yet.';
+        banner.classList.remove('hidden');
+      }
+
+      // ----- Last launch time (sunset-based) -----
+      // Barber Park gates close at sunset and the float takes 2-3 hours, so the
+      // practical "last launch" is roughly sunset minus 3 hours. Sunset is
+      // computed locally (NOAA-style approximation, accurate to a couple minutes).
+      function sunsetUTC(date, lat, lon) {
+        var rad = Math.PI / 180;
+        var start = Date.UTC(date.getFullYear(), 0, 0);
+        var N = Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - start) / 86400000);
+        var lngHour = lon / 15;
+        var t = N + ((18 - lngHour) / 24);
+        var M = (0.9856 * t) - 3.289;
+        var L = M + (1.916 * Math.sin(M * rad)) + (0.020 * Math.sin(2 * M * rad)) + 282.634;
+        L = ((L % 360) + 360) % 360;
+        var RA = Math.atan(0.91764 * Math.tan(L * rad)) / rad;
+        RA = ((RA % 360) + 360) % 360;
+        RA += (Math.floor(L / 90) * 90) - (Math.floor(RA / 90) * 90);
+        RA /= 15;
+        var sinDec = 0.39782 * Math.sin(L * rad);
+        var cosDec = Math.cos(Math.asin(sinDec));
+        var cosH = (Math.cos(90.833 * rad) - (sinDec * Math.sin(lat * rad))) / (cosDec * Math.cos(lat * rad));
+        if (cosH < -1 || cosH > 1) return null; // no sunset (never happens in Boise)
+        var H = (Math.acos(cosH) / rad) / 15;
+        var T = H + RA - (0.06571 * t) - 6.622;
+        var UT = ((T - lngHour) % 24 + 24) % 24;
+        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) + UT * 3600000);
+      }
+
+      try {
+        var sunset = sunsetUTC(new Date(), 43.6, -116.2); // Boise
+        if (sunset) {
+          var fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Boise', hour: 'numeric', minute: '2-digit' });
+          var lastLaunch = new Date(sunset.getTime() - 3 * 3600000);
+          document.getElementById('last-launch-text').textContent =
+            'Sunset in Boise is about ' + fmt.format(sunset) + ' today — plan to launch by ~' +
+            fmt.format(lastLaunch) + ' so you’re off the water before the park closes.';
+          document.getElementById('last-launch').classList.remove('hidden');
+        }
+      } catch (e) { /* leave the line hidden */ }
+
+      // ----- Packing checklist (persists per device) -----
+      var KEY = 'fb-packing-v1';
+      var boxes = document.querySelectorAll('#packing-checklist input[type="checkbox"]');
+      if (boxes.length) {
+        var saved = [];
+        try { saved = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
+        boxes.forEach(function (box) {
+          box.checked = saved.indexOf(box.getAttribute('data-item')) !== -1;
+          box.addEventListener('change', function () {
+            var checked = [];
+            boxes.forEach(function (b) { if (b.checked) checked.push(b.getAttribute('data-item')); });
+            try { localStorage.setItem(KEY, JSON.stringify(checked)); } catch (e) {}
+          });
+        });
+        document.getElementById('checklist-reset').addEventListener('click', function () {
+          boxes.forEach(function (b) { b.checked = false; });
+          try { localStorage.removeItem(KEY); } catch (e) {}
+        });
+      }
     })();
   </script>
 
