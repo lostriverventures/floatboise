@@ -235,7 +235,7 @@
             Float the<br class="hidden sm:block" /> Boise River
           </h1>
           <p class="mt-5 text-lg sm:text-xl text-white/85 max-w-xl leading-relaxed">
-            The 6-mile float from Barber Park to Ann Morrison, made simple &mdash; live conditions, the weather forecast, parking, and safety, all in one place.
+            Six miles from Barber Park to Ann Morrison. Everything you need before you go.
           </p>
           <div class="mt-8 flex flex-col sm:flex-row gap-3">
             <a href="#plan"
@@ -243,17 +243,13 @@
               Plan Your Float
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             </a>
-            <a href="#conditions"
-               class="inline-flex justify-center items-center bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-full border border-white/30 backdrop-blur-sm transition-colors">
-              Check Conditions
-            </a>
           </div>
 
           <!-- Quick links to the practical / local sections -->
           <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/70">
-            <span class="text-xs font-semibold uppercase tracking-wider text-white/45">Also here</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-white/45">Before &amp; after</span>
             <a href="#gear" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4" /></svg>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.7.7 1.78.873 2.607.33a18.1 18.1 0 005.223-5.222c.542-.827.369-1.909-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" /><circle cx="6.75" cy="6.75" r="0.75" fill="currentColor" stroke="none" /></svg>
               Rent gear
             </a>
             <span class="text-white/25" aria-hidden="true">&bull;</span>
@@ -349,7 +345,7 @@
     <section id="weather" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-river tracking-tight">Weather Forecast</h2>
       <p class="mt-4 text-lg text-slate-600 max-w-2xl">
-        The next few days at a glance, plus our pick for the best day to get on the water.
+        The next few days at a glance, with the best days to get on the water called out.
       </p>
 
       <!-- Best day highlight -->
@@ -358,7 +354,7 @@
           <circle cx="50" cy="50" r="18" /><circle cx="50" cy="50" r="30" /><circle cx="50" cy="50" r="42" />
         </svg>
         <div class="relative">
-          <p class="text-xs font-semibold uppercase tracking-widest text-white/70">Best Day to Float This Week</p>
+          <p id="best-day-eyebrow" class="text-xs font-semibold uppercase tracking-widest text-white/70">Best Day to Float This Week</p>
           <p id="best-day-name" class="font-display mt-1 text-3xl sm:text-4xl font-semibold">Loading&hellip;</p>
           <p id="best-day-detail" class="mt-1.5 text-white/90"></p>
           <p id="best-day-why" class="mt-2 text-sm text-white/75 max-w-md"></p>
@@ -1574,27 +1570,42 @@
         return 'Chosen for ' + (top.length === 2 ? top[0] + ' and ' + top[1] : top[0]) + '.';
       }
 
-      function makeForecastCard(period, isBest) {
+      // Shared plain-English reason when several days are all great to float.
+      function collectiveReason(periods) {
+        function precipOf(p) { return (p.probabilityOfPrecipitation && p.probabilityOfPrecipitation.value) || 0; }
+        var phrases = [];
+        if (periods.every(function (p) { return p.temperature >= 82 && p.temperature <= 100; })) phrases.push('warm');
+        if (periods.every(function (p) { return precipOf(p) <= 15; })) phrases.push('mostly dry');
+        if (periods.every(function (p) { return parseWindMph(p.windSpeed) <= 10; })) phrases.push('light wind');
+        if (!phrases.length) return 'All look solid for getting on the water.';
+        var joined = phrases.length === 1 ? phrases[0]
+          : phrases.slice(0, -1).join(', ') + ' and ' + phrases[phrases.length - 1];
+        return joined.charAt(0).toUpperCase() + joined.slice(1) + ' across the board.';
+      }
+
+      // tier: 'best' (top pick) | 'great' (also a great day) | null (ordinary)
+      function makeForecastCard(period, tier) {
         var precip = (period.probabilityOfPrecipitation && period.probabilityOfPrecipitation.value) || 0;
+        var highlight = tier === 'best' || tier === 'great';
 
         var card = document.createElement('div');
-        card.className = isBest
+        card.className = highlight
           ? 'relative bg-leaf-light rounded-xl border-2 border-leaf shadow-card p-4 pt-5 text-center'
           : 'relative bg-white rounded-xl border border-slate-100 shadow-card card-lift hover:shadow-lift p-4 text-center';
 
-        if (isBest) {
+        if (highlight) {
           var badge = document.createElement('span');
           badge.className = 'absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-leaf text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full';
-          badge.textContent = 'Best Day';
+          badge.textContent = tier === 'best' ? 'Best Day' : 'Great';
           card.appendChild(badge);
         }
 
         var name = document.createElement('p');
-        name.className = isBest ? 'text-sm font-bold text-leaf' : 'text-sm font-semibold text-slate-500';
+        name.className = highlight ? 'text-sm font-bold text-leaf' : 'text-sm font-semibold text-slate-500';
         name.textContent = period.name;
 
         var iconWrap = document.createElement('div');
-        iconWrap.className = isBest ? 'mt-2 w-9 h-9 mx-auto text-leaf' : 'mt-2 w-9 h-9 mx-auto text-river';
+        iconWrap.className = highlight ? 'mt-2 w-9 h-9 mx-auto text-leaf' : 'mt-2 w-9 h-9 mx-auto text-river';
         iconWrap.innerHTML = weatherIcon(period.shortForecast);
 
         var temp = document.createElement('p');
@@ -1606,7 +1617,7 @@
         short.textContent = period.shortForecast;
 
         var rain = document.createElement('p');
-        rain.className = isBest ? 'mt-1 text-xs text-leaf font-semibold' : 'mt-1 text-xs text-river font-semibold';
+        rain.className = highlight ? 'mt-1 text-xs text-leaf font-semibold' : 'mt-1 text-xs text-river font-semibold';
         rain.textContent = precip + '% rain';
 
         card.appendChild(name);
@@ -1633,9 +1644,47 @@
         msg.appendChild(document.createTextNode('.'));
         grid.appendChild(msg);
 
+        document.getElementById('best-day-eyebrow').textContent = 'Best Day to Float This Week';
         document.getElementById('best-day-name').textContent = 'Unavailable';
         document.getElementById('best-day-detail').textContent = 'See the forecast link above.';
         document.getElementById('best-day-why').textContent = '';
+      }
+
+      // A day is "great to float" on its own merits (warm, dry, calm), not just
+      // relative to a bad week — so multiple days can qualify, or none.
+      var GREAT_SCORE = 82;
+
+      function detailLine(p) {
+        var precip = (p.probabilityOfPrecipitation && p.probabilityOfPrecipitation.value) || 0;
+        return p.temperature + '°' + p.temperatureUnit + ' · ' + p.shortForecast + ' · ' + precip + '% chance of rain';
+      }
+
+      function updateBestDayBanner(great, top, periods) {
+        var eyebrow = document.getElementById('best-day-eyebrow');
+        var name = document.getElementById('best-day-name');
+        var detail = document.getElementById('best-day-detail');
+        var why = document.getElementById('best-day-why');
+        var icon = document.getElementById('best-day-icon');
+
+        if (great.length >= 2) {
+          eyebrow.textContent = 'Great Days to Float This Week';
+          name.textContent = great.length + ' great days ahead';
+          detail.textContent = collectiveReason(great);
+          why.textContent = 'Take your pick from the highlighted days below.';
+          icon.innerHTML = weatherIcon('sunny');
+        } else if (great.length === 1) {
+          eyebrow.textContent = 'Best Day to Float This Week';
+          name.textContent = great[0].name;
+          detail.textContent = detailLine(great[0]);
+          why.textContent = bestDayReason(great[0], periods);
+          icon.innerHTML = weatherIcon(great[0].shortForecast);
+        } else {
+          eyebrow.textContent = 'Best Bet This Week';
+          name.textContent = top.name;
+          detail.textContent = detailLine(top);
+          why.textContent = 'The pick of a rougher week — double-check flow and weather before you go.';
+          icon.innerHTML = weatherIcon(top.shortForecast);
+        }
       }
 
       function fetchForecast() {
@@ -1644,21 +1693,30 @@
             var periods = data.properties.periods.filter(function (p) { return p.isDaytime; }).slice(0, 5);
             if (!periods.length) throw new Error('no periods');
 
-            var best = periods.reduce(function (acc, p) {
-              var s = scoreDay(p);
-              return (!acc || s > acc.score) ? { period: p, score: s } : acc;
-            }, null);
+            var scored = periods.map(function (p) { return { period: p, score: scoreDay(p) }; });
+            var ranked = scored.slice().sort(function (a, b) { return b.score - a.score; });
+            var great = ranked.filter(function (x) { return x.score >= GREAT_SCORE; });
+
+            // Only crown a single "Best Day" when the top day clearly beats the
+            // rest; if several are neck-and-neck, they're co-equal "Great" days.
+            var clearBest = great.length === 1 ||
+              (great.length >= 2 && (great[0].score - great[1].score) >= 3);
 
             var grid = document.getElementById('forecast-grid');
             grid.innerHTML = '';
-            periods.forEach(function (p) { grid.appendChild(makeForecastCard(p, p === best.period)); });
+            scored.forEach(function (x) {
+              var tier = null;
+              if (x.score >= GREAT_SCORE) {
+                tier = (x === great[0] && clearBest) ? 'best' : 'great';
+              }
+              grid.appendChild(makeForecastCard(x.period, tier));
+            });
 
-            var precip = (best.period.probabilityOfPrecipitation && best.period.probabilityOfPrecipitation.value) || 0;
-            document.getElementById('best-day-name').textContent = best.period.name;
-            document.getElementById('best-day-detail').textContent =
-              best.period.temperature + '°' + best.period.temperatureUnit + ' · ' + best.period.shortForecast + ' · ' + precip + '% chance of rain';
-            document.getElementById('best-day-why').textContent = bestDayReason(best.period, periods);
-            document.getElementById('best-day-icon').innerHTML = weatherIcon(best.period.shortForecast);
+            updateBestDayBanner(
+              great.map(function (x) { return x.period; }),
+              ranked[0].period,
+              periods
+            );
           })
           .catch(showForecastError);
       }
