@@ -3,20 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Float Boise — Barber Park to Ann Morrison Float Guide</title>
-  <meta name="description" content="Practical planning for the 6-mile Boise River float from Barber Park to Ann Morrison Park. Live river conditions, weather, parking, safety, and gear." />
+  <title>Float the Boise River — Barber Park to Ann Morrison Guide</title>
+  <meta name="description" content="How to float the Boise River — the 6-mile Barber Park to Ann Morrison run. Live conditions, weather, parking, the shuttle back, tubing tips, and safety in one place." />
   <link rel="canonical" href="https://floatboise.com/" />
+
+  <!-- Local + browser signals -->
+  <meta name="geo.region" content="US-ID" />
+  <meta name="geo.placename" content="Boise, Idaho" />
+  <meta name="geo.position" content="43.60;-116.20" />
+  <meta name="ICBM" content="43.60, -116.20" />
+  <meta name="theme-color" content="#0A4D68" />
 
   <!-- Social sharing -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://floatboise.com/" />
   <meta property="og:site_name" content="Float Boise" />
-  <meta property="og:title" content="Float Boise — Barber Park to Ann Morrison Float Guide" />
-  <meta property="og:description" content="Live conditions, weather, parking, and safety for the 6-mile Boise River float from Barber Park to Ann Morrison Park." />
+  <meta property="og:title" content="Float the Boise River — Barber Park to Ann Morrison Guide" />
+  <meta property="og:description" content="Live conditions, weather, parking, the shuttle back, and safety for the 6-mile Boise River float from Barber Park to Ann Morrison." />
   <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/6/60/Tubers_Float_the_Boise_River.JPG" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Float Boise — Barber Park to Ann Morrison Float Guide" />
-  <meta name="twitter:description" content="Live conditions, weather, parking, and safety for the 6-mile Boise River float." />
+  <meta name="twitter:title" content="Float the Boise River — Barber Park to Ann Morrison Guide" />
+  <meta name="twitter:description" content="Live conditions, weather, parking, the shuttle back, and safety for the 6-mile Boise River float." />
   <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/6/60/Tubers_Float_the_Boise_River.JPG" />
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -66,6 +73,43 @@
         },
       },
     };
+  </script>
+
+  <!-- Structured data: site identity + the float as a local attraction -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://floatboise.com/#website",
+        "url": "https://floatboise.com/",
+        "name": "Float Boise",
+        "description": "A practical guide to floating the Boise River from Barber Park to Ann Morrison Park."
+      },
+      {
+        "@type": "TouristAttraction",
+        "name": "Boise River Float — Barber Park to Ann Morrison Park",
+        "description": "The classic 6-mile summer float and tube trip down the Boise River through downtown Boise, from the Barber Park put-in to the Ann Morrison Park take-out.",
+        "url": "https://floatboise.com/",
+        "isAccessibleForFree": false,
+        "touristType": ["Families", "First-time floaters", "Tubing", "Rafting"],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "4049 S. Eckert Rd.",
+          "addressLocality": "Boise",
+          "addressRegion": "ID",
+          "postalCode": "83716",
+          "addressCountry": "US"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 43.5675,
+          "longitude": -116.1391
+        }
+      }
+    ]
+  }
   </script>
 
   <!-- Structured data: FAQ rich results (mirrors the on-page FAQ) -->
