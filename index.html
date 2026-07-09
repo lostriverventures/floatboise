@@ -196,10 +196,8 @@
 
   <main id="home">
 
-    <!-- ============ HERO ============ -->
+    <!-- ============ HERO (slim title band) ============ -->
     <section class="relative overflow-hidden bg-gradient-to-b from-river-dark via-river to-[#0e6182]">
-      <!-- decorative sun glow -->
-      <div class="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-gradient-to-br from-amber-200/25 to-transparent blur-2xl"></div>
       <!-- decorative ripple lines -->
       <svg class="pointer-events-none absolute inset-0 w-full h-full opacity-[0.12]" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <g fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round">
@@ -209,85 +207,13 @@
         </g>
       </svg>
 
-      <div class="relative max-w-6xl mx-auto px-5 sm:px-6 pt-12 sm:pt-16 pb-28 sm:pb-36 grid lg:grid-cols-12 gap-10 items-center">
-        <div class="lg:col-span-7">
-          <div class="flex flex-wrap items-center gap-2.5">
-            <a href="#conditions" id="hero-live"
-               class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 pl-2 pr-3 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm hover:bg-white/15 transition-colors">
-              <span class="relative flex h-2.5 w-2.5">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-leaf/70"></span>
-                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-leaf"></span>
-              </span>
-              <span id="hero-live-text">Live river conditions</span>
-              <svg class="w-3.5 h-3.5 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
-            </a>
-            <a href="#weather" id="hero-weather"
-               class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 pl-2.5 pr-3 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm hover:bg-white/15 transition-colors">
-              <span id="hero-weather-icon" class="w-4 h-4 text-amber-200" aria-hidden="true">
-                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>
-              </span>
-              <span id="hero-weather-text">Weather forecast</span>
-              <svg class="w-3.5 h-3.5 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
-            </a>
-          </div>
-          <h1 class="font-display mt-5 text-5xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.03]">
-            Float the<br class="hidden sm:block" /> Boise River
-          </h1>
-          <p class="mt-5 text-lg sm:text-xl text-white/85 max-w-xl leading-relaxed">
-            Six miles from Barber Park to Ann Morrison. Everything you need before you go.
-          </p>
-          <div class="mt-8 flex flex-col sm:flex-row gap-3">
-            <a href="#plan"
-               class="inline-flex justify-center items-center gap-2 bg-leaf hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-full shadow-lg shadow-leaf/25 transition-all hover:shadow-xl hover:-translate-y-0.5">
-              Plan Your Float
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-            </a>
-          </div>
-
-          <!-- Quick links to the practical / local sections -->
-          <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/70">
-            <span class="text-xs font-semibold uppercase tracking-wider text-white/45">Before &amp; after</span>
-            <a href="#gear" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.7.7 1.78.873 2.607.33a18.1 18.1 0 005.223-5.222c.542-.827.369-1.909-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" /><circle cx="6.75" cy="6.75" r="0.75" fill="currentColor" stroke="none" /></svg>
-              Rent gear
-            </a>
-            <span class="text-white/25" aria-hidden="true">&bull;</span>
-            <a href="#after" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 11h1a3 3 0 010 6h-1M9 12v6M13 12v6M5 8h12v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8zM5 8a2 2 0 012-2h8a2 2 0 012 2" /></svg>
-              Eat &amp; drink after
-            </a>
-          </div>
-        </div>
-
-        <!-- Brand illustration: floating inner tube on the river (echoes the logo) -->
-        <div class="hidden lg:block lg:col-span-5">
-          <svg class="w-full max-w-sm mx-auto drop-shadow-2xl" viewBox="0 0 400 400" fill="none" aria-hidden="true">
-            <!-- sun -->
-            <circle cx="322" cy="74" r="30" fill="#FDF0C8" opacity="0.85" />
-            <circle cx="322" cy="74" r="44" fill="#FDF0C8" opacity="0.12" />
-            <!-- ripple rings -->
-            <g stroke="#ffffff" stroke-width="2" opacity="0.18">
-              <ellipse cx="196" cy="232" rx="150" ry="60" />
-              <ellipse cx="196" cy="232" rx="110" ry="44" />
-            </g>
-            <!-- shadow under tube -->
-            <ellipse cx="196" cy="250" rx="96" ry="30" fill="#073B50" opacity="0.25" />
-            <!-- inner tube -->
-            <g transform="rotate(-9 196 210)">
-              <circle cx="196" cy="210" r="92" fill="#15803d" />
-              <circle cx="196" cy="210" r="92" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.35" />
-              <circle cx="196" cy="210" r="46" fill="#0A4D68" />
-              <!-- tube valve + segment highlights -->
-              <circle cx="196" cy="118" r="7" fill="#0f5e2c" />
-              <path d="M196 118 A92 92 0 0 1 288 210" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.28" fill="none" />
-            </g>
-            <!-- water current lines -->
-            <g stroke="#ffffff" stroke-linecap="round" fill="none" opacity="0.4">
-              <path d="M70 300 C 120 288, 160 312, 210 300 S 300 288, 340 300" stroke-width="3" />
-              <path d="M96 332 C 140 322, 180 344, 226 332 S 300 322, 332 332" stroke-width="3" opacity="0.6" />
-            </g>
-          </svg>
-        </div>
+      <div class="relative max-w-6xl mx-auto px-5 sm:px-6 pt-10 sm:pt-12 pb-24 sm:pb-28">
+        <h1 class="font-display text-4xl sm:text-5xl font-semibold text-white tracking-tight leading-[1.05]">
+          Float the Boise River
+        </h1>
+        <p class="mt-3 text-sm sm:text-base font-medium text-white/70">
+          Barber Park &rarr; Ann Morrison Park &middot; 6 miles
+        </p>
       </div>
 
       <!-- wave transition into page -->
@@ -1229,7 +1155,6 @@
     (function () {
       var USGS_SITE = '13206000'; // Boise River at Glenwood Bridge
       var FORECAST_URL = 'https://api.weather.gov/gridpoints/BOI/135,84/forecast';
-      var HOURLY_URL = 'https://api.weather.gov/gridpoints/BOI/135,84/forecast/hourly';
 
       // Fetch JSON with one automatic retry, so a transient 503 (these public
       // APIs occasionally return one) doesn't leave the pills/cards blank.
@@ -1274,9 +1199,6 @@
         dot.className = dotClass;
         text.textContent = label;
         caption.textContent = captionText;
-
-        var heroText = document.getElementById('hero-live-text');
-        if (heroText) heroText.textContent = cfs.toLocaleString() + ' cfs · ' + label;
       }
 
       function fetchFlow() {
@@ -1299,8 +1221,6 @@
             document.getElementById('status-badge').className =
               'inline-flex items-center gap-1.5 bg-slate-100 text-slate-500 text-sm font-semibold px-3 py-1 rounded-full cursor-default';
             document.getElementById('status-dot').className = 'w-2 h-2 rounded-full bg-slate-400';
-            var heroText = document.getElementById('hero-live-text');
-            if (heroText) heroText.textContent = 'River conditions';
             var caption = document.getElementById('flow-caption');
             caption.textContent = 'Live data unavailable right now — ';
             var link = document.createElement('a');
@@ -1548,23 +1468,8 @@
           .catch(showForecastError);
       }
 
-      // Current temperature + sky for the hero weather pill (hourly = "now").
-      function fetchCurrentWeather() {
-        getJson(HOURLY_URL, 1)
-          .then(function (data) {
-            var now = data.properties.periods[0];
-            if (!now) throw new Error('no data');
-            var textEl = document.getElementById('hero-weather-text');
-            var iconEl = document.getElementById('hero-weather-icon');
-            if (textEl) textEl.textContent = now.temperature + '°' + now.temperatureUnit + ' · ' + now.shortForecast;
-            if (iconEl) iconEl.innerHTML = weatherIcon(now.shortForecast);
-          })
-          .catch(function () { /* leave the default "Weather forecast" label */ });
-      }
-
       fetchFlow();
       fetchForecast();
-      fetchCurrentWeather();
     })();
   </script>
 
