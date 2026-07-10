@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boise River Float Map — Rapids, Bridges & Rest Stops</title>
+  <meta name="description" content="Interactive map of the Boise River float from Barber Park to Ann Morrison Park: all three Class II rapids, every bridge, rest stops, mile markers, parking, and the take-out." />
+  <link rel="canonical" href="https://floatboise.com/map/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://floatboise.com/map/" />
+  <meta property="og:site_name" content="Float Boise" />
+  <meta property="og:title" content="Boise River Float Map — Rapids, Bridges & Rest Stops" />
+  <meta property="og:description" content="Every rapid, bridge, rest stop, and mile marker on the 6-mile Barber Park to Ann Morrison float." />
+  <meta name="geo.region" content="US-ID" />
+  <meta name="geo.placename" content="Boise, Idaho" />
+  <meta name="theme-color" content="#0A4D68" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7JJ1581Y9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T7JJ1581Y9');
+  </script>
+
+  <link rel="stylesheet" href="/styles.css?v=20260710" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    .fb-pin { display:flex; align-items:center; justify-content:center; width:100%; height:100%;
+              border-radius:9999px; color:#fff; font: 700 11px/1 Inter, sans-serif;
+              border:2px solid #fff; box-shadow:0 1px 4px rgba(7,59,80,.45); }
+    .fb-mile { background:#475569; }
+    .leaflet-popup-content-wrapper { border-radius: 12px; font-family: Inter, sans-serif; }
+    .leaflet-popup-content { margin: 12px 14px; font-size: 13px; line-height: 1.45; }
+    .leaflet-popup-content b { color:#0A4D68; }
+    .fb-pop-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.05em;
+                  text-transform:uppercase; color:#64748b; margin-bottom:2px; }
+  </style>
+</head>
+
+<body class="bg-cream text-slate-800 font-sans antialiased">
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="sticky top-0 z-[1001] bg-cream/90 backdrop-blur border-b border-slate-200">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+      <a href="/" class="flex items-center gap-2 shrink-0">
+        <svg class="w-8 h-8" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#FDFBF7" stroke="#0A4D68" stroke-width="2.5"/>
+          <circle cx="32" cy="26" r="12" fill="none" stroke="#15803d" stroke-width="6"/>
+          <path d="M8 44c4.5 3 9 3 13.5 0s9-3 13.5 0 9 3 13.5 0 9-3 13.5 0"
+                fill="none" stroke="#0A4D68" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+        <span class="font-display text-2xl font-semibold tracking-tight text-river">floatboise</span>
+      </a>
+      <div class="hidden md:flex items-center gap-5 lg:gap-7 text-sm font-medium text-slate-600 whitespace-nowrap px-4">
+        <a href="/" class="hover:text-river transition-colors">Home</a>
+        <a href="/#conditions" class="hover:text-river transition-colors">Conditions</a>
+        <a href="/#plan" class="hover:text-river transition-colors">Plan</a>
+        <a href="/map/" class="text-river font-semibold">Map</a>
+        <a href="/#safety" class="hover:text-river transition-colors">Safety</a>
+        <a href="/#faq" class="hover:text-river transition-colors">FAQ</a>
+      </div>
+      <a href="/#conditions"
+         class="bg-river hover:bg-river-dark text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        River Conditions
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- slim title band -->
+    <section class="relative overflow-hidden bg-gradient-to-b from-river-dark via-river to-[#0e6182]">
+      <div class="relative max-w-6xl mx-auto px-5 sm:px-6 pt-8 sm:pt-10 pb-10 sm:pb-12">
+        <h1 class="font-display text-3xl sm:text-4xl font-semibold text-white tracking-tight">Float Map</h1>
+        <p class="mt-2 text-sm sm:text-base font-medium text-white/70">
+          Barber Park &rarr; Ann Morrison Park &middot; every rapid, bridge &amp; rest stop
+        </p>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+      <!-- legend -->
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-600 pb-4">
+        <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-leaf border border-white shadow"></span>Start / End</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-amber-600 border border-white shadow"></span>Rapids</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-river border border-white shadow"></span>Bridges</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-teal-600 border border-white shadow"></span>Rest stops</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-red-600 border border-white shadow"></span>Hazard</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-violet-600 border border-white shadow"></span>After the float</span>
+      </div>
+
+      <div id="map" class="w-full h-[62vh] min-h-[420px] rounded-2xl border border-slate-200 shadow-card z-0"
+           role="region" aria-label="Interactive map of the Boise River float route"></div>
+      <p id="map-fallback" class="hidden mt-4 text-sm text-slate-600">
+        The map couldn&rsquo;t load. See the
+        <a class="text-river font-semibold hover:underline" href="https://www.floattheboise.org/pages/interactive-map" target="_blank" rel="noopener">official interactive map</a> instead.
+      </p>
+
+      <p class="mt-3 text-xs text-slate-400">
+        Tip: click the map to enable scroll zoom. Tap any marker for details.
+      </p>
+
+      <!-- facts strip -->
+      <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+        <div class="bg-river-light/60 rounded-lg p-3">
+          <p class="font-semibold text-river">Route length</p>
+          <p class="mt-0.5 text-slate-600">~6 miles &middot; 2&ndash;3 hours</p>
+        </div>
+        <div class="bg-river-light/60 rounded-lg p-3">
+          <p class="font-semibold text-river">Rapids</p>
+          <p class="mt-0.5 text-slate-600">3 Class II, all in the first half</p>
+        </div>
+        <div class="bg-river-light/60 rounded-lg p-3">
+          <p class="font-semibold text-river">Bridges</p>
+          <p class="mt-0.5 text-slate-600">7 crossings</p>
+        </div>
+        <div class="bg-river-light/60 rounded-lg p-3">
+          <p class="font-semibold text-river">Take-out</p>
+          <p class="mt-0.5 text-slate-600">River left at Ann Morrison</p>
+        </div>
+      </div>
+
+      <p class="mt-8 text-xs text-slate-400 leading-relaxed">
+        Route traced from OpenStreetMap river data; rapids, bridges, and logistics cross-checked against the
+        Ada County <a href="https://adacounty.id.gov/parksandwaterways/wp-content/uploads/sites/47/Parks-FloattheBoiseGuide-Brochure-TriFold-2025.pdf" target="_blank" rel="noopener" class="underline hover:text-slate-600">Float the Boise River Guide</a>
+        and <a href="https://www.floattheboise.org/" target="_blank" rel="noopener" class="underline hover:text-slate-600">floattheboise.org</a>.
+        Rest stop locations are approximate &mdash; watch for signed rest areas from the water. This is an unofficial guide;
+        conditions change, so always verify before you float.
+      </p>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-river-dark text-white/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+      <a href="/" class="font-display text-lg font-semibold text-white">floatboise</a>
+      <div class="flex flex-wrap gap-x-5 gap-y-1">
+        <a href="/#plan" class="hover:text-white transition-colors">Plan Your Float</a>
+        <a href="/#safety" class="hover:text-white transition-colors">Safety</a>
+        <a href="/#faq" class="hover:text-white transition-colors">FAQ</a>
+      </div>
+      <p class="text-white/50 text-xs">Not an official source &mdash; verify conditions before you go.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script>
+  window.addEventListener('load', function () {
+    if (typeof L === 'undefined') {
+      document.getElementById('map-fallback').classList.remove('hidden');
+      return;
+    }
+
+    var ROUTE = [[43.570249,-116.137867],[43.569447,-116.142419],[43.5695,-116.143709],[43.569706,-116.144236],[43.569956,-116.144407],[43.570184,-116.144563],[43.571454,-116.144558],[43.572409,-116.145006],[43.57378,-116.145973],[43.574527,-116.147114],[43.574783,-116.147878],[43.575156,-116.150094],[43.575322,-116.150448],[43.575832,-116.151544],[43.577093,-116.152707],[43.57788,-116.153384],[43.578831,-116.154018],[43.579312,-116.154193],[43.579601,-116.154495],[43.580506,-116.156428],[43.581274,-116.158078],[43.581376,-116.158691],[43.581571,-116.158983],[43.581751,-116.159151],[43.581976,-116.159592],[43.582873,-116.160405],[43.58376,-116.16045],[43.584903,-116.160008],[43.585279,-116.159998],[43.58572,-116.160111],[43.586334,-116.160624],[43.586554,-116.160823],[43.586727,-116.161096],[43.588668,-116.163084],[43.589201,-116.16469],[43.589775,-116.16642],[43.590202,-116.167609],[43.590551,-116.169154],[43.59158,-116.170785],[43.593217,-116.171625],[43.594108,-116.172482],[43.594727,-116.173636],[43.595494,-116.17461],[43.59627,-116.175041],[43.597343,-116.175077],[43.59764,-116.175225],[43.597902,-116.17542],[43.598558,-116.176229],[43.599107,-116.176701],[43.59957,-116.1773],[43.600941,-116.179091],[43.601463,-116.179906],[43.601771,-116.180843],[43.60146,-116.1827],[43.600863,-116.18364],[43.600514,-116.184271],[43.599924,-116.184885],[43.599586,-116.185727],[43.59959,-116.18665],[43.599675,-116.187471],[43.599764,-116.18784],[43.599925,-116.188192],[43.600523,-116.188653],[43.601024,-116.189027],[43.601438,-116.189756],[43.601906,-116.190812],[43.602516,-116.192188],[43.603957,-116.193802],[43.60463,-116.194491],[43.605306,-116.195875],[43.605591,-116.196857],[43.60559,-116.197141],[43.605348,-116.197608],[43.605372,-116.198119],[43.605458,-116.198558],[43.605612,-116.198946],[43.605767,-116.199388],[43.605786,-116.200019],[43.605691,-116.200929],[43.605533,-116.201384],[43.605377,-116.202089],[43.605304,-116.202795],[43.605311,-116.203317],[43.605386,-116.203689],[43.605474,-116.203914],[43.606346,-116.205332],[43.607144,-116.206508],[43.607583,-116.207297],[43.607979,-116.207487],[43.608308,-116.207531],[43.608726,-116.208092],[43.608965,-116.208714],[43.609544,-116.209731],[43.610173,-116.210743],[43.610493,-116.21144],[43.610983,-116.212841],[43.61155,-116.215099],[43.611707,-116.215588],[43.611907,-116.216209],[43.612074,-116.21673],[43.612204,-116.217074]];
+
+    var map = L.map('map', { scrollWheelZoom: false });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    map.on('click', function () { map.scrollWheelZoom.enable(); });
+
+    var line = L.polyline(ROUTE, { color: '#0A4D68', weight: 5, opacity: 0.9 }).addTo(map);
+    L.polyline(ROUTE, { color: '#7dd3fc', weight: 1.5, opacity: 0.8, dashArray: '6 10' }).addTo(map);
+    map.fitBounds(line.getBounds(), { padding: [30, 30] });
+
+    function pin(color, size, label) {
+      return L.divIcon({
+        className: '',
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+        popupAnchor: [0, -size / 2],
+        html: '<div class="fb-pin" style="background:' + color + '">' + (label || '') + '</div>'
+      });
+    }
+    function add(lat, lon, color, size, label, tag, title, body) {
+      L.marker([lat, lon], { icon: pin(color, size, label), title: title })
+        .addTo(map)
+        .bindPopup('<span class="fb-pop-tag">' + tag + '</span><br><b>' + title + '</b><br>' + body);
+    }
+
+    var GREEN = '#15803d', AMBER = '#d97706', RIVER = '#0A4D68',
+        TEAL = '#0d9488', RED = '#dc2626', VIOLET = '#7c3aed';
+
+    // Start / end
+    add(ROUTE[0][0], ROUTE[0][1], GREEN, 30, '&#9654;', 'Mile 0 · Put-in', 'Barber Park Put-In',
+        'Launch here. Rentals on site (tubes, rafts, kayaks) and a free life jacket loaner station. Parking $7/day &mdash; no lot re-entry.');
+    add(ROUTE[ROUTE.length-1][0], ROUTE[ROUTE.length-1][1], GREEN, 30, '&#9632;', 'Mile ~6 · Take-out', 'Ann Morrison Take-Out',
+        'Exit on the <b>left side</b> of the river &mdash; start working toward the bank early. Free parking. Shuttle back to Barber Park: $4/person, noon&ndash;9 p.m. (hourly weekdays, every 20 min weekends).');
+
+    // Hazard past take-out (mapped diversion weir, canoe: no)
+    add(43.614760, -116.221022, RED, 26, '!', 'Hazard', 'Diversion Dam &mdash; Do Not Pass the Take-Out',
+        'A dam not passable by floaters sits about a quarter mile past Ann Morrison. If you miss the take-out, get to the left bank immediately.');
+
+    // Rapids (names, drops & order per the official Ada County river guide)
+    add(43.569956, -116.144407, AMBER, 26, '1', 'Class II rapid · ~mile 0.4', 'Bubb Dam',
+        'First and biggest of the three &mdash; a 2&ndash;3 ft drop over a diversion dam, about 20 minutes in. Stay centered, feet downstream, hold on.');
+    add(43.581166, -116.157846, AMBER, 26, '2', 'Class II rapid · ~mile 1.5', 'Rock Garden',
+        'Rocky, splashy stretch about a mile after Bubb Dam. Steer for the main channel. (Approximate location.)');
+    add(43.58656, -116.160833, AMBER, 26, '3', 'Class II rapid · ~mile 1.9', 'Mesa Dam',
+        'Last of the three &mdash; a 1&ndash;2 ft drop at a diversion dam, just before Mile 2. Smooth water from here on.');
+
+    // Bridges (crossings computed from OSM; names per the official guide)
+    var bridges = [
+      [43.576015, -116.151713, 'East Parkcenter Bridge', 'Mile 1.0'],
+      [43.598283, -116.175889, 'Baybrook Bridge', 'Mile 3.0 &mdash; Greenbelt footbridge; rest stops on either side'],
+      [43.600453, -116.188599, 'West Parkcenter Bridge', 'Mile 3.9'],
+      [43.603665, -116.193474, 'Broadway Ave. Bridge', 'Mile 4.1 &mdash; Boise State on your left'],
+      [43.605369, -116.203604, 'Friendship Bridge', 'Mile 4.8 &mdash; footbridge into Julia Davis Park'],
+      [43.608804, -116.208293, 'Capitol Blvd. Bridge', 'Mile 5.1'],
+      [43.609270, -116.209248, '9th Street Bridges', 'Mile 5.2 &mdash; last bridges before the take-out']
+    ];
+    bridges.forEach(function (b) {
+      add(b[0], b[1], RIVER, 20, '', 'Bridge', b[2], b[3]);
+    });
+
+    // Rest stops (approximate; sides per float guides)
+    var rests = [
+      [43.596399, -116.175045, 'Rest Stop &middot; ~mile 2.9', 'Golf Course Rest Area', 'On the <b>left bank</b> across from Warm Springs Golf Course, just before Baybrook Bridge. Restrooms. (Approximate &mdash; watch for signs.)'],
+      [43.598823, -116.176457, 'Rest Stop &middot; ~mile 3.1', 'Baybrook Rest Area', 'On the <b>right bank</b> just after Baybrook Bridge. Restrooms. (Approximate &mdash; watch for signs.)'],
+      [43.606055, -116.204859, 'Rest Stop &middot; ~mile 4.9', 'Julia Davis Rest Area', 'On the <b>right bank</b> in Julia Davis Park, just past Friendship Bridge &mdash; the last restroom before the take-out. (Approximate &mdash; watch for signs.)']
+    ];
+    rests.forEach(function (r) {
+      add(r[0], r[1], TEAL, 22, 'WC', r[2], r[3], r[4]);
+    });
+
+    // Mile markers (computed along the route geometry)
+    var miles = {"1":[43.576443,-116.152108],"2":[43.587686,-116.162078],"3":[43.597407,-116.175109],"4":[43.60158,-116.190078],"5":[43.607217,-116.206639]};
+    Object.keys(miles).forEach(function (m) {
+      L.marker(miles[m], { icon: pin('#475569', 18, m), title: 'Mile ' + m })
+        .addTo(map).bindPopup('<b>Mile ' + m + '</b>');
+    });
+
+    // After the float (verified locations)
+    add(43.613320, -116.215350, VIOLET, 22, '&#9749;', 'After the float', 'Payette Brewing',
+        '733 S. Pioneer St. &mdash; riverside taproom on the Greenbelt, ~5 min walk from the take-out.');
+    add(43.608190, -116.212820, VIOLET, 22, '&#9749;', 'After the float', 'Lost Grove Brewing',
+        '1026 S. La Pointe St. &mdash; Lusk District, ~10 min walk from the take-out.');
+  });
+  </script>
+</body>
+</html>
