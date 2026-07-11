@@ -12,8 +12,10 @@ const path = require('path');
 
 const SITE = 'https://floatboise.com';
 const PAGES = [
-  { loc: '/',     file: 'index.html',     changefreq: 'weekly',  priority: '1.0' },
-  { loc: '/map/', file: 'map/index.html', changefreq: 'monthly', priority: '0.8' },
+  { loc: '/',                   file: 'index.html',                   changefreq: 'weekly',  priority: '1.0' },
+  { loc: '/map/',               file: 'map/index.html',               changefreq: 'monthly', priority: '0.8' },
+  { loc: '/guides/first-time/', file: 'guides/first-time/index.html', changefreq: 'monthly', priority: '0.8' },
+  { loc: '/guides/kids/',       file: 'guides/kids/index.html',       changefreq: 'monthly', priority: '0.8' },
 ];
 
 const root = path.resolve(__dirname, '..');
