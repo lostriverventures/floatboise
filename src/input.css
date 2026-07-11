@@ -1,7 +1,8 @@
 /*
- * Source stylesheet for Tailwind. Build the production CSS with:
- *   npx -y tailwindcss@3.4.17 -c tailwind.config.js -i src/input.css -o styles.css --minify
- * Re-run after adding new Tailwind classes to index.html.
+ * Source stylesheet for Tailwind. Don't run tailwindcss directly — run the
+ * project build, which compiles this file AND regenerates the sitemap:
+ *   ./build.sh
+ * Re-run after any content or class change before committing.
  */
 @tailwind base;
 @tailwind components;
